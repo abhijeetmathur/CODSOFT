@@ -1,0 +1,54 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+file = pd.read_csv("advertising.csv")
+file
+
+file.shape
+
+file.describe()
+
+sns.pairplot(file, x_vars=['TV', 'Radio', 'Newspaper'], y_vars='Sales', kind='scatter')
+plt.show()
+
+file['TV'].plot.hist(bins=10)
+
+file['Radio'].plot.hist(bins=10, color='green', xlabel='Radio')
+
+file['Newspaper'].plot.hist(bins=10, color='purple', xlabel='Newspaper')
+
+sns.heatmap(file.corr(),annot=True)
+plt.show()
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(file[['TV']], file[['Sales']], test_size = 0.3, random_state=0)
+
+print(X_train)
+
+print(y_train)
+
+print(X_test)
+
+print(y_test)
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+res = model.predict(X_test)
+print(res)
+
+print(y_test)
+
+model.coef_
+
+model.intercept_
+
+plt.plot(res)
+
+plt.scatter(X_test, y_test)
+plt.plot(X_test, 7.14382225 + 0.05473199 * X_test, 'r')
+plt.show()
+
